@@ -14,6 +14,10 @@ categories = ["asynchronous", "concurrency"]
 [dependencies]
 smallring = "=0.2.2"
 loom = { version = "0.7.2", features = ["futures"], optional = true }
+portable-atomic = { version = "1.13.1", optional = true }
+portable-atomic-util = { version = "0.2.7", features = [
+    "alloc",
+], optional = true }
 
 [dev-dependencies]
 tokio = { version = "1.48.0", features = ["full"] }
@@ -25,6 +29,7 @@ tokio-test = "0.4.4"
 default = ["std"]
 loom = ["dep:loom", "smallring/loom"]
 std = []
+portable-atomic = ["dep:portable-atomic", "dep:portable-atomic-util"]
 
 [[bench]]
 name = "notify_benchmark"
