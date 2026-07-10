@@ -32,11 +32,11 @@ lite-sync = "0.2"
 
 ### no_std
 
-`lite-sync` supports `no_std` environments (requires `alloc`). Disable default features in `Cargo.toml`:
+`lite-sync` supports `no_std` environments. By default, it does not require `alloc` when default features are disabled. If you need features like `oneshot` or `spsc`, you can enable the `alloc` or `spsc` features (which requires the `alloc` crate):
 
 ```toml
 [dependencies]
-lite-sync = { version = "0.2", default-features = false }
+lite-sync = { version = "0.2", default-features = false, features = ["alloc"] }
 ```
 
 ## Modules

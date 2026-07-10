@@ -1,4 +1,4 @@
-#![cfg(feature = "loom")]
+#![cfg(all(feature = "loom", feature = "spsc"))]
 
 use lite_sync::spsc::channel;
 use loom::future::block_on;

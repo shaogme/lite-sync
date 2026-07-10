@@ -1,6 +1,6 @@
 [package]
 name = "lite-sync"
-version = "0.2.3"
+version = "0.2.4"
 edition = "2024"
 authors = ["ShaoG <shaog.rs@gmail.com>"]
 description = "Fast, lightweight async primitives: SPSC channel, oneshot, notify, and atomic waker"
@@ -12,7 +12,7 @@ keywords = ["async", "spsc", "channel", "oneshot", "performance"]
 categories = ["asynchronous", "concurrency"]
 
 [dependencies]
-smallring = "=0.2.2"
+smallring = { version = "=0.2.2", optional = true }
 loom = { version = "0.7.2", features = ["futures"], optional = true }
 
 [dev-dependencies]
@@ -22,8 +22,10 @@ futures = "0.3.31"
 tokio-test = "0.4.4"
 
 [features]
-default = ["std"]
-loom = ["dep:loom", "smallring/loom"]
+default = ["std", "alloc", "spsc"]
+alloc = []
+spsc = ["dep:smallring", "alloc"]
+loom = ["dep:loom", "smallring?/loom"]
 std = []
 
 [[bench]]

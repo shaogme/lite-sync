@@ -92,6 +92,7 @@
 //! ### One-shot completion with custom state
 //!
 //! ```
+//! # #[cfg(feature = "alloc")] {
 //! use lite_sync::oneshot::lite::{State, Sender};
 //!
 //! #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -133,11 +134,13 @@
 //! let result = receiver.await;
 //! assert_eq!(result, Ok(TaskResult::Success));
 //! # });
+//! # }
 //! ```
 //!
 //! ### SPSC channel with inline storage
 //!
 //! ```
+//! # #[cfg(feature = "spsc")] {
 //! use lite_sync::spsc::channel;
 //! use std::num::NonZeroUsize;
 //!
@@ -158,6 +161,7 @@
 //! }
 //! assert_eq!(sum, 45); // 0+1+2+...+9
 //! # });
+//! # }
 //! ```
 //!
 //! ### Single-waiter notification
@@ -199,10 +203,13 @@
 //! - 全面的测试覆盖，包括并发场景
 #![cfg_attr(not(any(test, feature = "std", feature = "loom")), no_std)]
 
+#[cfg(feature = "alloc")]
 extern crate alloc;
 
 pub mod atomic_waker;
 pub mod notify;
+#[cfg(feature = "alloc")]
 pub mod oneshot;
 pub(crate) mod shim;
+#[cfg(feature = "spsc")]
 pub mod spsc;
