@@ -27,6 +27,7 @@ pub mod cell {
 
     impl<T: ?Sized> UnsafeCell<T> {
         #[inline]
+        #[cfg(feature = "alloc")]
         pub fn with<F, R>(&self, f: F) -> R
         where
             F: FnOnce(*const T) -> R,
@@ -49,37 +50,41 @@ pub mod cell {
     pub use loom::cell::UnsafeCell;
 }
 
-#[cfg(not(any(feature = "loom", feature = "portable-atomic")))]
+#[cfg(all(
+    not(feature = "loom"),
+    not(feature = "portable-atomic"),
+    feature = "alloc"
+))]
 pub mod sync {
     pub use alloc::sync::Arc;
 }
 
-#[cfg(all(not(feature = "loom"), feature = "portable-atomic"))]
+#[cfg(all(not(feature = "loom"), feature = "portable-atomic", feature = "alloc"))]
 pub mod sync {
     pub use portable_atomic_util::Arc;
 }
 
-#[cfg(feature = "loom")]
+#[cfg(all(feature = "loom", feature = "alloc"))]
 pub mod sync {
     pub use loom::sync::Arc;
 }
 
-#[cfg(all(any(feature = "std", test), not(feature = "loom")))]
+#[cfg(all(any(feature = "std", test), not(feature = "loom"), feature = "alloc"))]
 pub mod thread {
     pub use std::thread::{Thread, current, park};
 }
 
-#[cfg(feature = "loom")]
+#[cfg(all(feature = "loom", feature = "alloc"))]
 pub mod thread {
     pub use loom::thread::{Thread, current, park};
 }
 
-#[cfg(not(feature = "loom"))]
+#[cfg(all(not(feature = "loom"), feature = "spsc"))]
 pub mod notify {
     pub use crate::notify::SingleWaiterNotify;
 }
 
-#[cfg(feature = "loom")]
+#[cfg(all(feature = "loom", feature = "spsc"))]
 pub mod notify {
     use core::future::Future;
     use core::pin::Pin;
