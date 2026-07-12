@@ -734,10 +734,10 @@ checksum = "7a2ae44ef20feb57a68b23d846850f861394c2e02dc425a50098ae8c90267589"
 [[package]]
 name = "smallring"
 version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c77fd78cfb627887e67dfb3f2bb4f58e9c5b79f3ee4e23c3ab6c741329f78641"
 dependencies = [
  "loom",
+ "portable-atomic",
+ "portable-atomic-util",
 ]
 
 [[package]]
