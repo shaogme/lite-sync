@@ -52,14 +52,14 @@ pub mod cell {
 
 #[cfg(all(
     not(feature = "loom"),
-    not(feature = "portable-atomic"),
+    not(feature = "portable-atomic-util"),
     feature = "alloc"
 ))]
 pub mod sync {
     pub use alloc::sync::Arc;
 }
 
-#[cfg(all(not(feature = "loom"), feature = "portable-atomic", feature = "alloc"))]
+#[cfg(all(not(feature = "loom"), feature = "portable-atomic-util"))]
 pub mod sync {
     pub use portable_atomic_util::Arc;
 }

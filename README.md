@@ -27,7 +27,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-lite-sync = "0.2"
+lite-sync = "0.3"
 ```
 
 ### no_std
@@ -36,16 +36,22 @@ lite-sync = "0.2"
 
 ```toml
 [dependencies]
-lite-sync = { version = "0.2", default-features = false, features = ["alloc"] }
+lite-sync = { version = "0.3", default-features = false, features = ["alloc"] }
 ```
 
 ### portable-atomic
 
-For targets that lack native atomic instructions (such as some thumbv6m targets or microcontrollers like MSP430/AVR), you can enable the `portable-atomic` feature. This will pull in the `portable-atomic` and `portable-atomic-util` crates to provide atomic operations:
+For targets that lack native atomic instructions (such as some thumbv6m targets or microcontrollers like MSP430/AVR), you can enable the `portable-atomic` feature. This will pull in the `portable-atomic` crate to provide atomic operations without requiring `alloc` feature (e.g. `Arc`).
+
+If you also need heap-allocated synchronization primitives (like `Arc` used by `spsc` channels) on platforms without native atomics, you should enable the `portable-atomic-util` feature instead, which pulls in `portable-atomic-util` and enables the `alloc` feature by default:
 
 ```toml
 [dependencies]
-lite-sync = { version = "0.2", default-features = false, features = ["portable-atomic"] }
+# Pull in only atomic operations (no alloc required)
+lite-sync = { version = "0.3", default-features = false, features = ["portable-atomic"] }
+
+# Pull in atomic operations and Arc from portable-atomic-util (alloc required)
+lite-sync = { version = "0.3", default-features = false, features = ["portable-atomic-util"] }
 ```
 
 ## Modules

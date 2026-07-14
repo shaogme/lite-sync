@@ -27,7 +27,7 @@
 
 ```toml
 [dependencies]
-lite-sync = "0.2"
+lite-sync = "0.3"
 ```
 
 ### no_std
@@ -36,16 +36,22 @@ lite-sync = "0.2"
 
 ```toml
 [dependencies]
-lite-sync = { version = "0.2", default-features = false, features = ["alloc"] }
+lite-sync = { version = "0.3", default-features = false, features = ["alloc"] }
 ```
 
 ### portable-atomic
 
-对于缺乏原生原子指令的目标平台（例如某些 thumbv6m 目标或 MSP430/AVR 等单片机），您可以启用 `portable-atomic` 特性。这将引入 `portable-atomic` 和 `portable-atomic-util` 库来提供原子操作：
+对于缺乏原生原子指令的目标平台（例如某些 thumbv6m 目标或 MSP430/AVR 等单片机），您可以启用 `portable-atomic` 特性。这只会引入 `portable-atomic` 库来提供基本的原子操作，不需要 `alloc` 特性。
+
+如果您在不支持原生原子指令的平台上还需要使用堆分配相关的功能（例如 `spsc` 通道所使用的 `Arc`），则应启用 `portable-atomic-util` 特性，它将引入 `portable-atomic-util` 库并默认启用 `alloc` 特性：
 
 ```toml
 [dependencies]
-lite-sync = { version = "0.2", default-features = false, features = ["portable-atomic"] }
+# 仅引入原子操作 (无需 alloc)
+lite-sync = { version = "0.3", default-features = false, features = ["portable-atomic"] }
+
+# 引入原子操作及基于 portable-atomic 的 Arc (需要 alloc)
+lite-sync = { version = "0.3", default-features = false, features = ["portable-atomic-util"] }
 ```
 
 ## 模块
