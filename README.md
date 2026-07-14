@@ -254,21 +254,24 @@ async fn main() {
 ### Blocking receive (for sync code)
 
 ```rust
+# #[cfg(feature = "std")]
+# fn main() {
 use lite_sync::oneshot::generic::channel;
 
-fn main() {
-    let (tx, rx) = channel::<String>();
-    
-    std::thread::spawn(move || {
-        tx.send("Hello from thread".to_string()).unwrap();
-    });
-    
-    // blocking_recv() for synchronous code
-    match rx.blocking_recv() {
-        Ok(msg) => println!("Received: {}", msg),
-        Err(_) => println!("Sender dropped"),
-    }
+let (tx, rx) = channel::<String>();
+
+std::thread::spawn(move || {
+    tx.send("Hello from thread".to_string()).unwrap();
+});
+
+// blocking_recv() for synchronous code
+match rx.blocking_recv() {
+    Ok(msg) => println!("Received: {}", msg),
+    Err(_) => println!("Sender dropped"),
 }
+# }
+# #[cfg(not(feature = "std"))]
+# fn main() {}
 ```
 
 ## Benchmarks

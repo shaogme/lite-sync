@@ -254,21 +254,24 @@ async fn main() {
 ### 阻塞接收（用于同步代码）
 
 ```rust
+# #[cfg(feature = "std")]
+# fn main() {
 use lite_sync::oneshot::generic::channel;
 
-fn main() {
-    let (tx, rx) = channel::<String>();
-    
-    std::thread::spawn(move || {
-        tx.send("来自线程的问候".to_string()).unwrap();
-    });
-    
-    // blocking_recv() 用于同步代码
-    match rx.blocking_recv() {
-        Ok(msg) => println!("收到: {}", msg),
-        Err(_) => println!("发送器已丢弃"),
-    }
+let (tx, rx) = channel::<String>();
+
+std::thread::spawn(move || {
+    tx.send("来自线程的问候".to_string()).unwrap();
+});
+
+// blocking_recv() 用于同步代码
+match rx.blocking_recv() {
+    Ok(msg) => println!("收到: {}", msg),
+    Err(_) => println!("发送器已丢弃"),
 }
+# }
+# #[cfg(not(feature = "std"))]
+# fn main() {}
 ```
 
 ## 基准测试
