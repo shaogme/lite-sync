@@ -39,6 +39,15 @@ lite-sync = "0.2"
 lite-sync = { version = "0.2", default-features = false, features = ["alloc"] }
 ```
 
+### portable-atomic
+
+对于缺乏原生原子指令的目标平台（例如某些 thumbv6m 目标或 MSP430/AVR 等单片机），您可以启用 `portable-atomic` 特性。这将引入 `portable-atomic` 和 `portable-atomic-util` 库来提供原子操作：
+
+```toml
+[dependencies]
+lite-sync = { version = "0.2", default-features = false, features = ["portable-atomic"] }
+```
+
 ## 模块
 
 ### `oneshot`

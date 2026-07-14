@@ -1,6 +1,6 @@
 [package]
 name = "lite-sync"
-version = "0.2.5"
+version = "0.2.6"
 edition = "2024"
 authors = ["ShaoG <shaogme@gmail.com>"]
 description = "Fast, lightweight async primitives: SPSC channel, oneshot, notify, and atomic waker"
@@ -34,7 +34,8 @@ std = []
 portable-atomic = [
     "dep:portable-atomic",
     "dep:portable-atomic-util",
-    "smallring/portable-atomic",
+    "smallring?/portable-atomic",
+    "alloc",
 ]
 
 [[bench]]

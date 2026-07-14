@@ -39,6 +39,15 @@ lite-sync = "0.2"
 lite-sync = { version = "0.2", default-features = false, features = ["alloc"] }
 ```
 
+### portable-atomic
+
+For targets that lack native atomic instructions (such as some thumbv6m targets or microcontrollers like MSP430/AVR), you can enable the `portable-atomic` feature. This will pull in the `portable-atomic` and `portable-atomic-util` crates to provide atomic operations:
+
+```toml
+[dependencies]
+lite-sync = { version = "0.2", default-features = false, features = ["portable-atomic"] }
+```
+
 ## Modules
 
 ### `oneshot`
