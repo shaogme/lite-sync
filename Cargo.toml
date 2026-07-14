@@ -1,12 +1,12 @@
 [package]
 name = "lite-sync"
-version = "0.2.4"
+version = "0.2.5"
 edition = "2024"
-authors = ["ShaoG <shaog.rs@gmail.com>"]
+authors = ["ShaoG <shaogme@gmail.com>"]
 description = "Fast, lightweight async primitives: SPSC channel, oneshot, notify, and atomic waker"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/ShaoG-R/lite-sync"
-homepage = "https://github.com/ShaoG-R/lite-sync"
+repository = "https://github.com/shaogme/lite-sync"
+homepage = "https://github.com/shaogme/lite-sync"
 documentation = "https://docs.rs/lite-sync"
 keywords = ["async", "spsc", "channel", "oneshot", "performance"]
 categories = ["asynchronous", "concurrency"]
