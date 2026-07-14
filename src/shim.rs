@@ -3,15 +3,14 @@
 //! This module provides a unified interface for synchronization primitives that transparently
 //! switches between `core` implementation (for production) and `loom` implementation (for testing).
 
-#[cfg(not(feature = "loom"))]
-pub mod atomic {
-    pub use core::sync::atomic::*;
-}
+#[cfg(not(any(feature = "loom", feature = "portable-atomic")))]
+pub use core::sync::atomic;
+
+#[cfg(all(not(feature = "loom"), feature = "portable-atomic"))]
+pub use portable_atomic as atomic;
 
 #[cfg(feature = "loom")]
-pub mod atomic {
-    pub use loom::sync::atomic::*;
-}
+pub use loom::sync::atomic;
 
 #[cfg(not(feature = "loom"))]
 pub mod cell {
@@ -51,9 +50,18 @@ pub mod cell {
     pub use loom::cell::UnsafeCell;
 }
 
-#[cfg(all(not(feature = "loom"), feature = "alloc"))]
+#[cfg(all(
+    not(feature = "loom"),
+    not(feature = "portable-atomic"),
+    feature = "alloc"
+))]
 pub mod sync {
     pub use alloc::sync::Arc;
+}
+
+#[cfg(all(not(feature = "loom"), feature = "portable-atomic", feature = "alloc"))]
+pub mod sync {
+    pub use portable_atomic_util::Arc;
 }
 
 #[cfg(all(feature = "loom", feature = "alloc"))]

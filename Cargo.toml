@@ -12,8 +12,12 @@ keywords = ["async", "spsc", "channel", "oneshot", "performance"]
 categories = ["asynchronous", "concurrency"]
 
 [dependencies]
-smallring = { version = "=0.2.2", optional = true }
+smallring = { version = "=0.2.3", optional = true }
 loom = { version = "0.7.2", features = ["futures"], optional = true }
+portable-atomic = { version = "1.13.1", optional = true }
+portable-atomic-util = { version = "0.2.7", features = [
+    "alloc",
+], optional = true }
 
 [dev-dependencies]
 tokio = { version = "1.48.0", features = ["full"] }
@@ -27,6 +31,11 @@ alloc = []
 spsc = ["dep:smallring", "alloc"]
 loom = ["dep:loom", "smallring?/loom"]
 std = []
+portable-atomic = [
+    "dep:portable-atomic",
+    "dep:portable-atomic-util",
+    "smallring/portable-atomic",
+]
 
 [[bench]]
 name = "notify_benchmark"
