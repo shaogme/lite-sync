@@ -202,6 +202,7 @@
 //! - 原子操作的仔细排序
 //! - 全面的测试覆盖，包括并发场景
 #![cfg_attr(not(any(test, feature = "std", feature = "loom")), no_std)]
+#![cfg(not(all(doctest, feature = "loom")))]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
@@ -213,3 +214,13 @@ pub mod oneshot;
 pub(crate) mod shim;
 #[cfg(feature = "spsc")]
 pub mod spsc;
+
+#[cfg(doctest)]
+#[cfg(all(feature = "alloc", feature = "spsc"))]
+mod doctests {
+    #[doc = include_str!("../README.md")]
+    struct Readme;
+
+    #[doc = include_str!("../README_CN.md")]
+    struct ReadmeCn;
+}
